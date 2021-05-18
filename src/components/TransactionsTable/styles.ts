@@ -33,7 +33,7 @@ export const Container = styled.div`
             }
 
             &.deposit {
-                color: var(--green);
+                color: #33CC95;
             }
 
             &.withdraw {

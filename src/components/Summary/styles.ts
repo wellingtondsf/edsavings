@@ -11,6 +11,7 @@ export const Container = styled.div`
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
     color: var(--text-title);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.30);
 
     header {
       display: flex;

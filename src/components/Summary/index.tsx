@@ -1,38 +1,74 @@
-import { Container } from "./styles"
-import incomeImg from "../../assets/income.svg"
-import outcomeImg from "../../assets/outcome.svg"
-import totalImg from "../../assets/total.svg"
+import { Container } from "./styles";
+import incomeImg from "../../assets/income.svg";
+import outcomeImg from "../../assets/outcome.svg";
+import totalImg from "../../assets/total.svg";
+import { useTransactions } from "../../hooks/useTransactions";
 
+export const Summary = () => {
+  const { transactions } = useTransactions();
 
-export const Summary = () =>{
-    return (
-        <Container>
-            <div>
-                <header>
-                    <p>Incomes</p>
-                    <img src={incomeImg} alt="Incomes" />
-                </header>
+  const summary = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.type === "deposit") {
+        acc.deposits += transaction.amount;
+        acc.total += transaction.amount;
+      } else {
+        acc.withdraws -= transaction.amount;
+        acc.total -= transaction.amount;
+      }
 
-                <strong>$1000.00</strong>
-            </div>
+      return acc;
+    },
+    {
+      deposits: 0,
+      withdraws: 0,
+      total: 0,
+    }
+  );
 
-            <div>
-                <header>
-                    <p>Outcomes</p>
-                    <img src={outcomeImg} alt="Outcomes" />
-                </header>
+  return (
+    <Container>
+      <div>
+        <header>
+          <p>Incomes</p>
+          <img src={incomeImg} alt="Incomes" />
+        </header>
 
-                <strong>- $500.00</strong>
-            </div>
+        <strong>
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(summary.deposits)}
+        </strong>
+      </div>
 
-            <div className="highlight-background">
-                <header>
-                    <p>Total</p>
-                    <img src={totalImg} alt="Total" />
-                </header>
+      <div>
+        <header>
+          <p>Outcomes</p>
+          <img src={outcomeImg} alt="Outcomes" />
+        </header>
 
-                <strong>$500.00</strong>
-            </div>
-        </Container>
-    )
-}
+        <strong>
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(summary.withdraws)}
+        </strong>
+      </div>
+
+      <div className="highlight-background">
+        <header>
+          <p>Total</p>
+          <img src={totalImg} alt="Total" />
+        </header>
+
+        <strong>
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(summary.total)}
+        </strong>
+      </div>
+    </Container>
+  );
+};
