@@ -17,7 +17,9 @@
 
 ## 🚀 The Application
 
-
+<h1 align="center">
+  <img alt="Logo" src="/public/images/edSavingsScreenshot.png">
+</h1>
 
 ## 🛠 Technologies
 
